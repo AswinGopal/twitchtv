@@ -17,7 +17,7 @@ impl Streamlink {
         }
 
         if let Some(home) = std::env::var_os("HOME") {
-            let cand = Path::new(&home).join("myenv/bin/streamlink");
+            let cand = Path::new(&home).join("myenv/streamlink//bin/streamlink");
             if cand.exists() {
                 return Ok(Self { exe: cand });
             }
