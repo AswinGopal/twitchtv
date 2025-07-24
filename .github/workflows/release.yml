@@ -34,13 +34,13 @@ jobs:
         run: cargo build --release
 
       - name: 🔬 Strip Linux binary
-        run: strip target/release/ytdownloader
+        run: strip target/release/twitchtv
 
       - name: 📦 Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ytdownloader-linux-x86_64
-          path: target/release/ytdownloader
+          name: twitchtv-linux-x86_64
+          path: target/release/twitchtv
 
   # New job to create the release
   create-release:
