@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use serde_json::Value;
 use std::{
     path::{Path, PathBuf},
@@ -45,35 +45,34 @@ impl Streamlink {
             .unwrap_or(false)
     }
 
-   pub fn qualities(&self, channel: &str) -> Vec<String> {
-    let out = Command::new(&self.exe)
-        .arg("--json")
-        .arg("--loglevel")
-        .arg("error")
-        .arg(format!("twitch.tv/{channel}"))
-        .output();
+    pub fn qualities(&self, channel: &str) -> Vec<String> {
+        let out = Command::new(&self.exe)
+            .arg("--json")
+            .arg("--loglevel")
+            .arg("error")
+            .arg(format!("twitch.tv/{channel}"))
+            .output();
 
-    if let Ok(o) = out {
-        if o.status.success() {
-            if let Ok(json) = serde_json::from_slice::<Value>(&o.stdout) {
-                if let Some(obj) = json.get("streams").and_then(|s| s.as_object()) {
-                    let mut list: Vec<String> = obj
-                        .keys()
-                        .filter(|k| {
-                            // only keep actual resolutions
-                            !matches!(k.as_str(), "best" | "worst" | "audio_only")
-                        })
-                        .cloned()
-                        .collect();
+        if let Ok(o) = out {
+            if o.status.success() {
+                if let Ok(json) = serde_json::from_slice::<Value>(&o.stdout) {
+                    if let Some(obj) = json.get("streams").and_then(|s| s.as_object()) {
+                        let mut list: Vec<String> = obj
+                            .keys()
+                            .filter(|k| {
+                                // only keep actual resolutions
+                                !matches!(k.as_str(), "best" | "worst" | "audio_only")
+                            })
+                            .cloned()
+                            .collect();
 
-                    list.sort_by(|a, b| b.cmp(a)); // descending sort
-                    return list;
+                        list.sort_by(|a, b| b.cmp(a)); // descending sort
+                        return list;
+                    }
                 }
             }
         }
-    }
 
-    vec![] // fallback
+        vec![] // fallback
     }
-
 }

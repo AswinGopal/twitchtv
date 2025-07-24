@@ -1,4 +1,4 @@
-use anyhow::{anyhow, bail, Result};
+use anyhow::{Result, anyhow, bail};
 use directories::ProjectDirs;
 use serde::Deserialize;
 use std::path::{Path, PathBuf};

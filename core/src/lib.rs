@@ -23,7 +23,7 @@ impl<P: player::Player + Sync> App<P> {
 
     pub fn run_with_stream(&self, stream: String) -> Result<()> {
         println!("🔍 Getting stream info for '{stream}'...");
-        
+
         if !self.sl.is_live(&stream) {
             println!("🚫 '{}' is not live right now.", stream);
             return Ok(());
@@ -85,4 +85,3 @@ impl<P: player::Player + Sync> App<P> {
         self.player.play(channel, quality)
     }
 }
-

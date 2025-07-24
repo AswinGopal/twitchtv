@@ -1,6 +1,6 @@
 use anyhow::Result;
 use clap::Parser;
-use twitchtv_core::{player, App};
+use twitchtv_core::{App, player};
 
 #[derive(Parser)]
 struct Args {
@@ -22,6 +22,6 @@ fn main() -> Result<()> {
     if let Some(stream_name) = args.stream {
         return app.run_with_stream(stream_name);
     }
-    
+
     app.run()
 }
